@@ -3,7 +3,7 @@ from rest_framework import viewsets # importa o viewset a partir da biblioteca r
 from .models import  Produto
 from .serializers import ProdutoSerializer
 
-# importndo metodo para exibir uma pagina home
+# importando metodo para exibir uma pagina home
 
 from django.http import HttpResponse
 
