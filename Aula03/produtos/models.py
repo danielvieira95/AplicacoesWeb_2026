@@ -86,6 +86,12 @@ class Pedido (models.Model):
     )
     
     
+    def total(self):
+        return sum(
+            item.subtotal()
+            for item in self.itens.all()
+        )
+    
     def __str__(self):
         
         return f"Pedido {self.id} - {self.cliente.nome}"
