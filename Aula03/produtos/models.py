@@ -117,11 +117,15 @@ class ItemPedido(models.Model):
     
     preco_unitario =models.DecimalField(
         max_digits = 10,
-        decimal_places = 2
+        decimal_places = 2,
+        editable = False
     )
     
     
     def save(self, *args, **kwargs):
+        # Ao criar um novo item do pedido pega automaticamente
+        if self.pk is None:
+            self.preco.unitario = self.produto.preco
         if not self.preco_unitario:
             self.preco_unitario = self.produto.preco
             
