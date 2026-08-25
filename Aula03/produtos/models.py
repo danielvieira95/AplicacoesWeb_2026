@@ -120,6 +120,13 @@ class ItemPedido(models.Model):
         decimal_places = 2
     )
     
+    
+    def save(self, *args, **kwargs):
+        if not self.preco_unitario:
+            self.preco_unitario = self.produto.preco
+            
+        super().save(*args, **kwargs)
+        
     def subtotal (self):
         
         return self.quantidade * self.preco_unitario
