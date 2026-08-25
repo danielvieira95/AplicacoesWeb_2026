@@ -22,7 +22,7 @@ class CategoriaAdmin(admin.ModelAdmin):
 @admin.register(Produto)
 
 class ProdutoAdmin(admin.ModelAdmin):
-    list_display = ["id", "nome", "quantidade", "preco", "descricao","categoria",  "created_at"]
+    list_display = ["id", "nome", "quantidade", "preco","categoria",  "created_at"]
     search_fields = ["nome"]
     list_filter = ["categoria"]
     
@@ -62,8 +62,7 @@ class PedidoAdmin(admin.ModelAdmin):
     list_display = [
         "id",
         "cliente",
-        "descricao",
-        "data_pedido",
+         "data_pedido",
         "status",
         "valor_total"
     ]
