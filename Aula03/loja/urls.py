@@ -18,13 +18,18 @@ from django.contrib import admin
 from django.urls import path,include
 from django.http import HttpResponse
 from rest_framework.routers import DefaultRouter
-from produtos.views import ProdutoViewSet
+from produtos.views import (home,ProdutoViewSet, CategoriaViewSet, ClienteViewSet, PedidoViewSet,ItemPedidoViewSet)
 
 def home(request):
     return HttpResponse("Olá Django ! Aplicações Web 2026 - 2 Aula 03 - Loja de produtos")
 
 router = DefaultRouter()
 router.register(r'produtos',ProdutoViewSet, basename= 'produto')
+
+router.register(r'categorias', CategoriaViewSet)
+router.register(r'clientes',ClienteViewSet)
+router.register(r'pedidos',PedidoViewSet)
+router.register(r'itens-pedido',ItemPedidoViewSet)
 
 urlpatterns = [
     path('', home),
