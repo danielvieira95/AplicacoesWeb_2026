@@ -73,16 +73,16 @@ class Pedido (models.Model):
         Cliente,
         on_delete = models.CASCADE,
         related_name = "pedidos"
-    ),
+    )
     
     descricao = models.CharField(
         max_length = 200,
         blank = True
-    )
+    ),
     
     data_pedido = models.DateTimeField(
         auto_now_add = True
-    )
+    ),
     
     status = models.CharField(
         max_length = 20,
