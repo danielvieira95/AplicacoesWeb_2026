@@ -73,6 +73,11 @@ class Pedido (models.Model):
         Cliente,
         on_delete = models.CASCADE,
         related_name = "pedidos"
+    ),
+    
+    descricao = models.CharField(
+        max_length = 200,
+        blank = True
     )
     
     data_pedido = models.DateTimeField(
@@ -94,7 +99,7 @@ class Pedido (models.Model):
     
     def __str__(self):
         
-        return f"Pedido {self.id} - {self.cliente.nome}"
+        return f"Pedido {self.id} - {self.cliente.nome} - {self.descricao}"
     
 
 
