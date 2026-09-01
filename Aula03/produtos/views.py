@@ -1,7 +1,10 @@
 from django.shortcuts import render
 from rest_framework import viewsets # importa o viewset a partir da biblioteca restframework
+from .models import Pedido
+from .serializers import StatusPedidoSerializer
+from rest_framework import mixins
 
-from .serializers import (ProdutoSerializer, CategoriaSerializer, ClienteSerializer, PedidoSerializer, ItemPedidoSerializer) 
+from .serializers import (ProdutoSerializer, CategoriaSerializer, ClienteSerializer, PedidoSerializer, ItemPedidoSerializer,StatusPedidoSerializer) 
 from .models import (Produto, Categoria, Cliente, Pedido, ItemPedido)  
 # importando metodo para exibir uma pagina home
 
@@ -47,3 +50,24 @@ class ItemPedidoViewSet(viewsets.ModelViewSet):
     queryset = ItemPedido.objects.all().order_by("-id")
     serializer_class = ItemPedidoSerializer
 # Create your views here.
+
+
+class PedidoViewSet(viewsets.ModelViewSet):
+    queryset = Pedido.objects.all()
+    serializer_class = PedidoSerializer
+
+
+
+
+
+
+
+class StatusPedidoViewSet(
+    mixins.ListModelMixin,
+    mixins.RetrieveModelMixin,
+    mixins.UpdateModelMixin,
+    viewsets.GenericViewSet
+):
+
+    queryset = Pedido.objects.all()
+    serializer_class = StatusPedidoSerializer
