@@ -8,6 +8,74 @@ from .models import (
     ItemPedido
 )
 
+from django.contrib.auth.models import User
+from rest_framework import serializers
+from .models import Cliente
+
+
+
+# Classe usuarioserializer
+
+class CadastroUsuarioSerializers(serializers.Serializer):
+    
+    username = serializers.CharField()
+    password = serializers.CharField(write_only = True)
+    
+    nome = serializers.CharField()
+    email = serializers.EmailField()
+    telefone = serializers.CharField(
+        required = False,
+        allow_blank = True
+    )
+    
+    def validated_username(self, value):
+        
+        if User.objects.filter(username=value).exists():
+            raise serializers.ValidationError(
+                "Este nome de usuario já está cadastrado"
+            )
+            
+            return value
+            
+    def validate_email(self, value):
+        
+        if Cliente.objects.filter(email=value).exists():
+            
+            raise serializers.ValidationError("Este email já está cadastrado")
+        return value
+       
+    def create(self, validated_data):
+        
+        #Cria o usuario de autenticação do Django
+        
+        usuario = User.objects.create_user(
+            username = validated_data['username'],
+            email = validated_data['email'],
+            password = validated_data['password']
+        )
+        
+        
+        # cria o cliente
+        
+        cliente = Cliente.objects.create(
+            usuario =usuario,
+            nome = validated_data['nome'],
+            email = validated_data['email'],
+            telefone = validated_data.get('telefone','')
+        )
+        
+        return cliente
+    
+    def to_representation(self, instance):
+        
+        return{
+            "id": instance.id,
+            "username":instance.usuario.username,
+            "nome":instance.nome,
+            "email":instance.email,
+            "telefone":instance.telefone
+        }
+
 
 # Categoria
 class CategoriaSerializer(serializers.ModelSerializer):
@@ -62,6 +130,9 @@ class ItemPedidoSerializer(serializers.ModelSerializer):
 
 # Pedido
 class PedidoSerializer(serializers.ModelSerializer):
+    cliente = serializers.PrimaryKeyRelatedField(
+        read_only = True
+    )
 
     total = serializers.SerializerMethodField(
         read_only=True

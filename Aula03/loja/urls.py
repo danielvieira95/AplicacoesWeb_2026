@@ -18,7 +18,7 @@ from django.contrib import admin
 from django.urls import path,include
 from django.http import HttpResponse
 from rest_framework.routers import DefaultRouter
-from produtos.views import (home,ProdutoViewSet, CategoriaViewSet, ClienteViewSet, PedidoViewSet,ItemPedidoViewSet,StatusPedidoViewSet)
+from produtos.views import (home,ProdutoViewSet, CategoriaViewSet, ClienteViewSet, PedidoViewSet,ItemPedidoViewSet,StatusPedidoViewSet, CadastroUsuarioView)
 from rest_framework_simplejwt.views import (
     TokenObtainPairView, TokenRefreshView
 )
@@ -42,6 +42,7 @@ urlpatterns = [
     path('', home),
     path('admin/',admin.site.urls),
     path('api/', include(router.urls)),
+    path('api/usuarios/cadastrar/',CadastroUsuarioView.as_view(), name = 'cadastrar_usuario'),
     
     
     # Login - gera Access Token e Refresh Token 
