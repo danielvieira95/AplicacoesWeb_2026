@@ -17,10 +17,14 @@ const erro = ref("");
 async function listarProdutos(){
   try {
     const resposta = await api.get("produtos/");
-    produtos.value = resposta.data;
+    console.log("Status HTTP: ", resposta.status);
+    console.log("Dados recebidos: ", resposta.data);
+    console.log("É um array ? ", Array.isArray(resposta.data))
+    produtos.value = Array.isArray(resposta.data)?resposta.data:resposta.data.results??[];
     erro.value = "";
   } catch (error){
-    console.error(error);
+    console.error("Erro na requisição",error);
+    console.error("Status:", error.response?.status);
     erro.value = "Erro ao buscar produtos";
   }
 }
@@ -97,5 +101,18 @@ async  function cadastrarProduto(){
       </li>
 
       </ul>
+      <h2>Resposta da API</h2>
+  <pre>{JSON.stringify(produtos,null,2)}</pre>
+
+  <h2>Produtos cadastrados</h2>
+  <ul>
+    <li v-for="produto in produtos":key="produto.id">
+      {{ produto.nome }}-
+      R$ {{ produto.preco }}-
+      Quantidade: {{ produto.quantidade }}
+    </li>
+  </ul>
   </main>
+
+  
 </template>
